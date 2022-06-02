@@ -1,0 +1,103 @@
+<div class="mt-4">
+  <div>
+    <h3>Danh sách bài học</h3>
+    <a href="/me/bin/words">Thùng rác ({{deleteCount}})</a>
+  </div>
+  <table class="table table-dark mt-4">
+    <thead>
+      <tr>
+        <th scope="col">Index</th>
+        <th scope="col">Name</th>
+        <th scope="col">Word</th>
+        <th scope="col">Mean</th>
+        <th scope="col">Date</th>
+        <th scope="col">Options</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each words}}
+        <tr>
+          <th scope="row">{{sum @index 1}}</th>
+          <td>{{this.name}}</td>
+          <td>{{this.word}}</td>
+          <td>{{this.mean}}</td>
+          <td>{{this.updatedAt}}</td>
+          <td>
+            <a href="/words/{{this._id}}/edit" class="btn btn-primary">Sửa</a>
+            <a
+              href=""
+              class="btn btn-primary"
+              data-toggle="modal"
+              data-target="#delete"
+              data-id="{{this._id}}"
+            >Xóa</a>
+          </td>
+        </tr>
+      {{else}}
+        <td colspan="7" class="text-center">
+          Bạn chưa nhập khóa học nào. Vui lòng đăng
+          <a href="/words/create">tại đây</a>
+        </td>
+      
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+
+{{! Confirm delete }}
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="delete"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Vui lòng xác nhận</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Bạn chắc chắn muốn xóa?
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-dismiss="modal"
+        >Hủy</button>
+        <button id="btn-delete" type="button" class="btn btn-danger">Xóa</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<form id="form-delete" method="POST"></form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var id
+        const btnDelete = document.getElementById('btn-delete')
+        const form = document.getElementById('form-delete')
+
+        //When dialog comfirm clicked
+        $('#delete').on('show.bs.modal', function (event) { 
+            const button = $(event.relatedTarget)
+            id = button.data('id') 
+        })
+
+        btnDelete.onclick = function() {
+            form.action = '/words/' + id + '?_method=DELETE'
+            form.submit()
+        }
+    })
+</script>

@@ -1,0 +1,24 @@
+<div class="mt-4">
+    <div class="row">
+        {{#each words}}
+        <div class="col-sm-6 col-lg-4">
+            <div class="card text-center" style="margin-top: 10px">
+                <div class="card-header">
+                    {{this.name}}
+                </div>
+                <div class="card-body">
+                    <a href="/words/{{this.slug}}">
+                        <img src="https://i.ytimg.com/vi/{{this.video}}/maxresdefault.jpg" alt="{{this.name}}" style="max-width: 350px">
+                    </a>
+                    <h5 class="card-title" style="margin-top: 10px;">{{this.word}}</h5>
+                    <p class="card-text">{{this.mean}}</p>
+                    <a href="/words/{{this.slug}}" class="btn btn-primary">Học ngay</a>
+                </div>
+                <div class="card-footer text-muted">
+                    {{this.updatedAt}}
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>

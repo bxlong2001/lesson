@@ -1,0 +1,109 @@
+<div class="mt-4">
+  <div>
+    <h3>Thùng rác</h3>
+    <a href="/me/stored/words">Danh sách bài học</a>
+  </div>
+  <table class="table table-dark mt-4">
+    <thead>
+      <tr>
+        <th scope="col">Index</th>
+        <th scope="col">Name</th>
+        <th scope="col">Date delete</th>
+        <th scope="col">Options</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each words}}
+        <tr>
+          <th scope="row">{{sum @index 1}}</th>
+          <td>{{this.name}}</td>
+          <td>{{this.deletedAt}}</td>
+          <td>
+            <a href="" class="btn btn-primary btn-restore" data-id="{{this._id}}">Khôi phục</a>
+            <a
+              href=""
+              class="btn btn-primary"
+              data-toggle="modal"
+              data-target="#delete"
+              data-id="{{this._id}}"
+            >Xóa vĩnh viễn</a>
+          </td>
+        </tr>
+      {{else}}
+        <td colspan="7" class="text-center">
+          Thùng rác rỗng. Quay lại
+          <a href="/me/stored/words">tại đây</a>
+        </td>
+      
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+
+{{! Confirm delete }}
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="delete"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Vui lòng xác nhận</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Bạn sẽ không thể khôi phục lại bài viết này. Bạn chắc chắn muốn xóa vĩnh viễn?
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-dismiss="modal"
+        >Hủy</button>
+        <button id="btn-delete" type="button" class="btn btn-danger">Xóa vĩnh viễn</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<form id="form-delete" method="POST"></form>
+<form id="form-restore" method="POST"></form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var id
+        const btnDelete = document.getElementById('btn-delete')
+        const form = document.getElementById('form-delete')
+        const formRestore = document.getElementById('form-restore')
+        const btnRestore = $('.btn-restore')
+
+        //When dialog confirm clicked
+        $('#delete').on('show.bs.modal', function (event) { 
+            const button = $(event.relatedTarget)
+            id = button.data('id') 
+        })
+
+        btnDelete.onclick = function() {
+            form.action = '/words/' + id + '/permanent?_method=DELETE'
+            form.submit()
+        }
+
+        btnRestore.click((e) => {
+          e.preventDefault()
+          var restoreId = $(e.target).data('id')
+          formRestore.action = '/words/' + restoreId + '/restore?_method=PATCH'
+          formRestore.submit()
+        })
+    })
+</script>

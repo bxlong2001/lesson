@@ -1,0 +1,23 @@
+<div class="mt-4">
+    <h1>Cập nhật bài học</h1>
+
+    <form method="POST" action="/words/{{words._id}}?_method=PUT">
+        <div class="form-group">
+            <label for="name">Tên bài</label>
+            <input type="text" value="{{words.name}}" class="form-control" id="name" name="name">
+        </div>
+        <div class="form-group">
+            <label for="word">Từ vựng</label>
+            <input type="text" value="{{words.word}}" class="form-control" id="word" name="word">
+        </div>
+        <div class="form-group">
+            <label for="mean">Nghĩa</label>
+            <input type="text" value="{{words.mean}}" class="form-control" id="mean" name="mean">
+        </div>
+        <div class="form-group">
+            <label for="video">Video ID</label>
+            <input type="text" value="{{words.video}}" class="form-control" id="video" name="video">
+        </div>
+        <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Sửa bài</button>
+    </form>
+</div>
